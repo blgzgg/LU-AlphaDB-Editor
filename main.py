@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog as fd
+import json
 
 # Tkinter configuration
 root = tk.Tk()
@@ -13,8 +14,8 @@ root.geometry("500x500+50+50")
 
 # Functions
 def select_db_path():
-    filename = fd.askopenfilename()
-    print(filename)
+    db_filename = fd.askopenfilename()
+    print(db_filename)
 
 
 # GUI Elements

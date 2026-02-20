@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog as fd
+from tkinter import ttk
 import json
 
 # Tkinter configuration
@@ -11,6 +12,8 @@ root.configure(background="#AFAFAF")
 root.minsize(500, 500)
 root.maxsize(700, 700)
 root.geometry("650x650+50+50")
+
+OBJECT_TYPES = ["Enviromental", ""]
 
 # Load paths from JSON
 with open("data/paths.json", "r") as f:
@@ -32,8 +35,14 @@ def select_db_path():
     #save path to JSON
     save_json("db_path", db_filename)
     
-    E1.delete(0, END)
-    E1.insert(0, db_filename)
+    db_path_entry.delete(0, END)
+    db_path_entry.insert(0, db_filename)
+
+def display_object():
+    pass
+
+def aggregate_row():
+    pass
 
 
 
@@ -44,15 +53,24 @@ main_frame.pack(padx=30)
 center_frame = tk.Frame(main_frame, width=600, height=600, bg="grey")
 center_frame.pack(padx=20, pady=30)
 
-db_path_button = tk.Button(center_frame, text="Select path to ivantest.xml", command=select_db_path)
-db_path_button.pack()
+db_frame = tk.Frame(center_frame, width=600, height=100, bg="grey")
+db_frame.pack(pady=20)
 
-L1 = Label(center_frame, text="Database Path:", bg="grey", fg="white")
-L1.pack( side = LEFT)
-E1 = Entry(center_frame, bd =2, width=200)
-E1.pack(side = RIGHT)
-E1.insert(0, db_filename)
-E1.bind("<Leave>", lambda event: save_json("db_path", E1.get()))
+db_path_button = tk.Button(db_frame, text="Select path to ivantest.xml", command=select_db_path)
+db_path_button.pack(side=BOTTOM, pady=10)
+
+db_path_label = Label(db_frame, text="Database Path:", bg="grey", fg="white")
+db_path_label.pack(side=LEFT)
+db_path_entry = Entry(db_frame, bd =2, width=200)
+db_path_entry.pack(side = RIGHT)
+db_path_entry.insert(0, db_filename)
+db_path_entry.bind("<Leave>", lambda event: save_json("db_path", db_path_entry.get()))
+
+obj_type_var = tk.StringVar(root)
+obj_type_var.set(OBJECT_TYPES[0])
+
+obj_menu = ttk.OptionMenu(center_frame, obj_type_var, *OBJECT_TYPES, command=lambda _: display_object())
+obj_menu.pack(pady=50,)
 
 
 

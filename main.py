@@ -14,7 +14,7 @@ root.minsize(500, 500)
 root.maxsize(700, 700)
 root.geometry("650x650+50+50")
 
-OBJECT_TYPES = ["Enviromental", ""]
+OBJECT_TYPES = ["Select object type", "Environmental", "Smashables"]
 
 # Load paths from JSON
 with open("data/paths.json", "r") as f:
@@ -39,14 +39,20 @@ def select_db_path():
     db_path_entry.delete(0, END)
     db_path_entry.insert(0, db_filename)
 
+def select_obj_path():
+    obj_filename = fd.askopenfilename()
+    print(obj_filename)
+
+    obj_path_entry.delete(0, END)
+    obj_path_entry.insert(0, obj_filename)
+
+
 def clear_frame(frame):
     for widget in frame.winfo_children():
         widget.destroy()
 
 def display_object():
     clear_frame(display_frame)
-    db_path_button2 = tk.Button(display_frame, text="Select path to ivantest.xml", command=select_db_path)
-    db_path_button2.pack(side=BOTTOM, pady=10)
     pass
 
 def aggregate_row():
@@ -74,11 +80,23 @@ db_path_entry.pack(side = RIGHT)
 db_path_entry.insert(0, db_filename)
 db_path_entry.bind("<Leave>", lambda event: save_json("db_path", db_path_entry.get()))
 
+
+obj_frame = tk.Frame(center_frame, width=600, height=100, bg="grey")
+obj_frame.pack(pady=10)
+
+obj_path_button = tk.Button(obj_frame, text="Select path to .nif object file", command=select_obj_path)
+obj_path_button.pack(side=BOTTOM, pady=10)
+obj_path_label = Label(obj_frame, text=".nif Object Path:", bg="grey", fg="white")
+obj_path_label.pack(side=LEFT)
+obj_path_entry = Entry(obj_frame, bd =2, width=200)
+obj_path_entry.pack(side = RIGHT)
+
 obj_type_var = tk.StringVar(root)
 obj_type_var.set(OBJECT_TYPES[0])
 
 obj_menu = ttk.OptionMenu(center_frame, obj_type_var, *OBJECT_TYPES, command=lambda _: display_object())
-obj_menu.pack(pady=50,)
+obj_menu.pack(pady=20,)
+
 
 display_frame = tk.Frame(center_frame, width=600, height=100, bg="grey")
 display_frame.pack(pady=20)

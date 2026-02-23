@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import filedialog as fd
 from tkinter import ttk
 import json
+import xml.etree.ElementTree as ET
 
 # Tkinter configuration
 root = tk.Tk()
@@ -38,7 +39,14 @@ def select_db_path():
     db_path_entry.delete(0, END)
     db_path_entry.insert(0, db_filename)
 
+def clear_frame(frame):
+    for widget in frame.winfo_children():
+        widget.destroy()
+
 def display_object():
+    clear_frame(display_frame)
+    db_path_button2 = tk.Button(display_frame, text="Select path to ivantest.xml", command=select_db_path)
+    db_path_button2.pack(side=BOTTOM, pady=10)
     pass
 
 def aggregate_row():
@@ -72,9 +80,10 @@ obj_type_var.set(OBJECT_TYPES[0])
 obj_menu = ttk.OptionMenu(center_frame, obj_type_var, *OBJECT_TYPES, command=lambda _: display_object())
 obj_menu.pack(pady=50,)
 
+display_frame = tk.Frame(center_frame, width=600, height=100, bg="grey")
+display_frame.pack(pady=20)
+
 
 
 
 root.mainloop()
-
-

@@ -4,6 +4,9 @@ from tkinter import filedialog as fd
 from tkinter import ttk
 import json
 import xml.etree.ElementTree as ET
+from lxml import etree
+
+from sklearn import tree
 
 # Tkinter configuration
 root = tk.Tk()
@@ -53,7 +56,17 @@ def clear_frame(frame):
 
 def display_object():
     clear_frame(display_frame)
+
+    #testing XML parsing
+    parser = etree.XMLParser(recover=True)
+    tree = ET.parse(db_path_entry.get(), parser=parser)
+    tree_root = tree.getroot()
+    for child in tree_root:
+        print(child.tag, child.attrib)
+
+    print("made it here")
     pass
+
 
 def aggregate_row():
     pass
